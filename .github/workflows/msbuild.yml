@@ -35,13 +35,16 @@ jobs:
         Invoke-WebRequest -Uri https://download.microsoft.com/download/9/b/b/9bb1309e-1a8f-4a47-a6c5-ecf76672a3b3/BuildTools_Full.exe -OutFile c:\Temp\BuildTools_Full.exe
         mkdir c:\msbt
         Start-Process -FilePath c:\Temp\BuildTools_Full.exe -ArgumentList "/quiet","/norestart","/log","c:\Temp\msbt.log" -Verb RunAs -Wait
+        tree 'C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild' /F
 
     - name: Build
     #  working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       # run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
-      run: Start-Process -FilePath 'C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild' -ArgumentList "-m","${{env.SOLUTION_FILE_PATH}}","-p:PlatformToolset=12.0","-p:Configuration=Release","-p:Platform=Win32" -Wait -NoNewWindow
+      run: |
+        $Env::VCTargetsPath = 'C:\Program Files (x86)\MSBuild\12.0\Bin'
+        Start-Process -FilePath 'C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild' -ArgumentList "-m","${{env.SOLUTION_FILE_PATH}}","-p:PlatformToolset=12.0","-p:Configuration=Release","-p:Platform=Win32" -Wait -NoNewWindow
 
     - name: Release
       run: tree ${{env.GITHUB_WORKSPACE}} /F
