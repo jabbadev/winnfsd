@@ -34,8 +34,8 @@ jobs:
       run: |
         Invoke-WebRequest -Uri https://download.microsoft.com/download/9/b/b/9bb1309e-1a8f-4a47-a6c5-ecf76672a3b3/BuildTools_Full.exe -OutFile c:\Temp\BuildTools_Full.exe
         mkdir c:\msbt
-        c:\Temp\BuildTools_Full.exe /Silent /InstallLocation=c:\msbt
-        tree C:\msbt /F
+        c:\Temp\BuildTools_Full.exe /quiet /norestart /log c:\Temp\msbt.log
+        cat c:\Temp\msbt.log
 
     #- name: Build
     #  working-directory: ${{env.GITHUB_WORKSPACE}}
