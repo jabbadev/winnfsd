@@ -42,6 +42,8 @@ jobs:
         Invoke-WebRequest -Uri https://download.microsoft.com/download/2/e/6/2e61cfa4-993b-4dd4-91da-3737cd5cd6e3/vcredist_x64.exe -OutFile c:\Temp\vcredist_x64.exe
         Start-Process -FilePath c:\Temp\vcredist_x64.exe -ArgumentList "/install","/quiet","/norestart" -Verb RunAs -Wait
         tree 'C:\Program Files (x86)\Microsoft Visual Studio 14.0' /F
+        tree 'C:\Program Files (x86)\Visual Studio' /F
+        tree 'C:\Program Files (x86)\Microsoft Visual Studio' /F
         ls 'C:\Program Files (x86)'
 
     - name: Build
