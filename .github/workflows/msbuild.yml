@@ -30,11 +30,17 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install MSBuild to PATH
+    - name: Install MSBuild
       run: |
         Invoke-WebRequest -Uri https://download.microsoft.com/download/9/b/b/9bb1309e-1a8f-4a47-a6c5-ecf76672a3b3/BuildTools_Full.exe -OutFile c:\Temp\BuildTools_Full.exe
         mkdir c:\msbt
         Start-Process -FilePath c:\Temp\BuildTools_Full.exe -ArgumentList "/quiet","/norestart","/log","c:\Temp\msbt.log" -Verb RunAs -Wait
+        #tree 'C:\Program Files (x86)\MSBuild\' /F
+
+    - name: Install redistributable packages
+      run: |
+        Invoke-WebRequest -Uri https://download.microsoft.com/download/2/e/6/2e61cfa4-993b-4dd4-91da-3737cd5cd6e3/vcredist_x64.exe -OutFile c:\Temp\vcredist_x64.exe
+        Start-Process -FilePath c:\Temp\vcredist_x64.exe -Verb RunAs -Wait
         tree 'C:\Program Files (x86)\MSBuild\' /F
 
     - name: Build
