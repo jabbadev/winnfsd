@@ -37,14 +37,16 @@ jobs:
     #    Start-Process -FilePath c:\Temp\BuildTools_Full.exe -ArgumentList "/quiet","/norestart","/log","c:\Temp\msbt.log" -Verb RunAs -Wait
     #    #tree 'C:\Program Files (x86)\MSBuild\' /F
 
-    - name: Install Visual Studio 2013
-      uses: crazy-max/ghaction-chocolatey@v3
-      with:
-          args: install visualstudiocommunity2013
+    #- name: Install Visual Studio 2013
+    #  uses: crazy-max/ghaction-chocolatey@v3
+    #  with:
+    #      args: install visualstudiocommunity2013
 
     
     - name: Verify install
       run: |
+        Get-Command choco
+        Start-Process -FilePath choco.exe -ArgumentList "install","visualstudiocommunity2013" -Verb RunAs -Wait
         ls 'C:\Program Files (x86)'
 
     #- name: Install redistributable packages
