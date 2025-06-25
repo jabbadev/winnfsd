@@ -46,8 +46,11 @@ jobs:
     - name: Verify install
       run: |
         Get-Command choco
-        Start-Process -FilePath C:\ProgramData\Chocolatey\bin\choco.exe -ArgumentList "-d","-v","install","visualstudiocommunity2013" -Verb RunAs -Wait
+        Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+        choco -dv install visualstudiocommunity2013
         ls 'C:\Program Files (x86)'
+      #  Start-Process -FilePath C:\ProgramData\Chocolatey\bin\choco.exe -ArgumentList "-d","-v","install","visualstudiocommunity2013" -Verb RunAs -Wait
+      #  ls 'C:\Program Files (x86)'
 
     #- name: Install redistributable packages
     #  run: |
