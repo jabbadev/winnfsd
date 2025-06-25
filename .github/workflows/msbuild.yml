@@ -46,6 +46,8 @@ jobs:
     - name: Verify install
       run: |
         Get-Command choco
+        tree "C:\Program Files (x86)\Microsoft Visual Studio" /F /A
+        Start-Process -FilePath C:\Program Files (x86)\Microsoft Visual Studio\Installer\InstallCleanup.exe -ArgumentList "-f" -Verb RunAs -Wait
         choco install visualstudiocommunity2013
         ls 'C:\Program Files (x86)'
       
