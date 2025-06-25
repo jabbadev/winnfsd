@@ -46,7 +46,6 @@ jobs:
     - name: Verify install
       run: |
         Get-Command choco
-        tree "C:\Program Files (x86)\Microsoft Visual Studio" /F /A
         Start-Process -FilePath C:\Program Files (x86)\Microsoft Visual Studio\Installer\InstallCleanup.exe -ArgumentList "-f" -Verb RunAs -Wait
         choco install visualstudiocommunity2013
         ls 'C:\Program Files (x86)'
@@ -65,7 +64,7 @@ jobs:
     #    ls 'C:\Program Files (x86)'
 
     - name: Build
-    #  working-directory: ${{env.GITHUB_WORKSPACE}}
+      working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       # run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
