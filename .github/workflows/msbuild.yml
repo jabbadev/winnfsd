@@ -46,7 +46,7 @@ jobs:
     - name: Verify install
       run: |
         Get-Command choco
-        Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+      #  Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
         choco -dv install visualstudiocommunity2013
         ls 'C:\Program Files (x86)'
       #  Start-Process -FilePath C:\ProgramData\Chocolatey\bin\choco.exe -ArgumentList "-d","-v","install","visualstudiocommunity2013" -Verb RunAs -Wait
