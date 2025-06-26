@@ -48,6 +48,7 @@ jobs:
         Get-Command choco
         Get-Command vswhere.exe
         choco list
+        Get-Package | Select-Object Name, Version, Source, ProviderName
         Start-Process -FilePath C:\Program Files (x86)\Microsoft Visual Studio\Installer\InstallCleanup.exe -ArgumentList "-f" -Verb RunAs -Wait
         choco install visualstudiocommunity2013
         tree 'C:\Windows\Microsoft.NET\Framework' /F /A
