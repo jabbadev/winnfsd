@@ -52,7 +52,7 @@ jobs:
       
     - name: Install Visual Studio 2013
       run: |  
-        Start-Process choco.exe -ArgumentList "-d","-v","install","visualstudiocommunity2013" -Verb RunAs -Wait -NoNewWindow
+        Start-Process choco.exe -ArgumentList "install","visualstudiocommunity2013" -Verb RunAs -Wait -NoNewWindow
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
         Write-Output "Visual Studio installation path ${VS_HOME}"
       #  ls 'C:\Program Files (x86)'
