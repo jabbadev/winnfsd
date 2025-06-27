@@ -50,8 +50,8 @@ jobs:
         choco list
         Get-Package | Select-Object Name, Version, Source, ProviderName
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-        vs_installer.exe remove --installPath $VS_HOME --quiet --norestart
-        $VS_INSTALLER_DIR = "${VS_HOME}\Installer"
+        $INSTALLER_DIR = Get-ChildItem $BaseDir -Recurse | Where-Object { $_.PSIsContainer -and $_.Name.EndsWith("Installer")}
+        echo $INSTALLER_DIR.FullName
         tree $VS_INSTALLER_DIR /F /A
         Start-Process -FilePath ${VS_INSTALLER_DIR}\vs_installer.exe -ArgumentList "remove","--installPath",$VS_HOME,"--quiet","--norestart" -Verb RunAs -Wait
       #  choco install visualstudiocommunity2013
