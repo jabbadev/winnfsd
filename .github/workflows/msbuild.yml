@@ -49,11 +49,12 @@ jobs:
         Get-Command vswhere.exe
         choco list
         Get-Package | Select-Object Name, Version, Source, ProviderName
-        vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-        tree 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Installer' /F /A
-        Start-Process -FilePath C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Installer\InstallCleanup.exe -ArgumentList "-f" -Verb RunAs -Wait
-        choco install visualstudiocommunity2013
-        tree 'C:\Windows\Microsoft.NET\Framework' /F /A
+        $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+        $VS_INSTALLER_DIR = "${VS_HOME}\Installer"
+        tree $VS_INSTALLER_DIR /F /A
+        Start-Process -FilePath ${VS_INSTALLER_DIR}\vs_installer.exe -ArgumentList "remove","--installPath",$VS_HOME,"--quiet","--norestart" -Verb RunAs -Wait
+      #  choco install visualstudiocommunity2013
+      #  tree 'C:\Windows\Microsoft.NET\Framework' /F /A
       
       #  Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
       #  Start-Process -FilePath C:\ProgramData\Chocolatey\bin\choco.exe -ArgumentList "-d","-v","install","visualstudiocommunity2013" -Verb RunAs -Wait
