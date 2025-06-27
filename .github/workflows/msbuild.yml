@@ -49,12 +49,12 @@ jobs:
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
         Write-Output "Visual Studio installation path ${VS_HOME}"
         c:\Temp\vs_enterprise.exe remove --installPath $VS_HOME --quiet --norestart
-        Write-Output "Status [${process.ExitCode}]"
-        Write-Output "Output"
-        Get-Content 'c:\Temp\vs_enterprise.out.txt'
-        Write-Output "Errors"
-        Get-Content 'c:\Temp\vs_enterprise.err.txt'
-        Write-Output "Verify uninstall"
+      #  Write-Output "Status [${process.ExitCode}]"
+      #  Write-Output "Output"
+      #  Get-Content 'c:\Temp\vs_enterprise.out.txt'
+      #  Write-Output "Errors"
+      #  Get-Content 'c:\Temp\vs_enterprise.err.txt'
+      #  Write-Output "Verify uninstall"
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
         Write-Output "Visual Studio installation path ${VS_HOME}"
       
