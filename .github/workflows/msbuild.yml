@@ -48,7 +48,7 @@ jobs:
         Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vs_enterprise.exe -OutFile 'c:\Temp\vs_enterprise.exe'
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
         Write-Output "Visual Studio installation path ${VS_HOME}"
-        $process = Start-Process -FilePath "c:\Temp\vs_enterprise.exe" -ArgumentList "remove","--installPath",$VS_HOME,"--quiet","--norestart" -PassThru -Verb RunAs -Wait -RedirectStandardError 'c:\Temp\vs_enterprise.err.txt' -RedirectStandardOutput 'c:\Temp\vs_enterprise.out.txt'
+        c:\Temp\vs_enterprise.exe remove --installPath $VS_HOME --quiet --norestart
         Write-Output "Status [${process.ExitCode}]"
         Write-Output "Output"
         Get-Content 'c:\Temp\vs_enterprise.out.txt'
