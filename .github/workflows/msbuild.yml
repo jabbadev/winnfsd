@@ -49,7 +49,7 @@ jobs:
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
         Write-Output "Visual Studio installation path ${VS_HOME}"
         ls $VS_HOME
-        $process = Start-Process -PassThru -Verb RunAs -Wait -FilePath "C:\Program Files (x86)\Microsoft Visual Studio\Installer\InstallCleanup.exe"
+        $process = Start-Process -PassThru -Verb RunAs -Wait -FilePath "C:\Program Files (x86)\Microsoft Visual Studio\Installer\InstallCleanup.exe" -ArgumentList "--quiet","--norestart","--force"
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
         Write-Output "Visual Studio installation path ${VS_HOME}"
       #  Write-Output "Status [${process.ExitCode}]"
