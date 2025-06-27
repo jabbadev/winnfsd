@@ -46,14 +46,9 @@ jobs:
     - name: Verify install
       run: |
         Get-Command choco
-        Get-Command vswhere.exe
-        choco list
-        Get-Package | Select-Object Name, Version, Source, ProviderName
+        Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vs_enterprise.exe -OutFile 'c:\Temp\vs_enterprise.exe'
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-        $INSTALLER_DIR = Get-ChildItem $VS_HOME -Recurse | Where-Object { $_.PSIsContainer -and $_.Name.EndsWith("Installer")}
-        echo $INSTALLER_DIR.FullName
-        tree $VS_INSTALLER_DIR /F /A
-        Start-Process -FilePath ${VS_INSTALLER_DIR}\vs_installer.exe -ArgumentList "remove","--installPath",$VS_HOME,"--quiet","--norestart" -Verb RunAs -Wait
+        Start-Process -FilePath c:\Temp\vs_enterprise.exe -ArgumentList "remove","--installPath",$VS_HOME,"--quiet","--norestart" -Verb RunAs -Wait
       #  choco install visualstudiocommunity2013
       #  tree 'C:\Windows\Microsoft.NET\Framework' /F /A
       
