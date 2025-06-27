@@ -45,18 +45,14 @@ jobs:
     
     - name: Uninstall local Visual Studio
       run: |
-        Get-Command choco
         Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vs_enterprise.exe -OutFile 'c:\Temp\vs_enterprise.exe'
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+        Write-Output "Visual Studio installation path ${VS_HOME}"
         Start-Process -FilePath c:\Temp\vs_enterprise.exe -ArgumentList "remove","--installPath",$VS_HOME,"--quiet","--norestart" -Verb RunAs -Wait
       
     - name: Install Visual Studio 2013
       run: |  
-        choco install visualstudiocommunity2013
-      #  tree 'C:\Windows\Microsoft.NET\Framework' /F /A
-      
-      #  Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-      #  Start-Process -FilePath C:\ProgramData\Chocolatey\bin\choco.exe -ArgumentList "-d","-v","install","visualstudiocommunity2013" -Verb RunAs -Wait
+        Start-Process choco.exe -ArgumentList "-d","-v","install","visualstudiocommunity2013" -Verb RunAs -Wait
       #  ls 'C:\Program Files (x86)'
 
     #- name: Install redistributable packages
