@@ -49,6 +49,7 @@ jobs:
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
         Write-Output "Visual Studio installation path ${VS_HOME}"
         ls $VS_HOME
+        ls "C:\Program Files (x86)\Microsoft Visual Studio"
         $process = Start-Process -FilePath "c:\Temp\vs_enterprise.exe" -ArgumentList "uninstall","--installPath","${VS_HOME}","--quiet","--norestart" -PassThru -Verb RunAs -Wait -RedirectStandardError 'c:\Temp\vs_enterprise.err.txt' -RedirectStandardOutput 'c:\Temp\vs_enterprise.out.txt'
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
         Write-Output "Visual Studio installation path ${VS_HOME}"
