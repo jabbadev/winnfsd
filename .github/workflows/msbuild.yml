@@ -48,11 +48,19 @@ jobs:
         Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vs_enterprise.exe -OutFile 'c:\Temp\vs_enterprise.exe'
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
         Write-Output "Visual Studio installation path ${VS_HOME}"
-        Start-Process -FilePath c:\Temp\vs_enterprise.exe -ArgumentList "remove","--installPath",$VS_HOME,"--quiet","--norestart" -Verb RunAs -Wait
+        $process = Start-Process -FilePath c:\Temp\vs_enterprise.exe -ArgumentList "remove","--installPath",$VS_HOME,"--quiet","--norestart" -PassThru -Verb RunAs -Wait -RedirectStandardError 'c:\Temp\vs_enterprise.err.txt' -RedirectStandardOutput 'c:\Temp\vs_enterprise.out.txt'
+        Write-Output "Status [${process.ExitCode}]"
+        Write-Output "Output"
+        Get-Content 'c:\Temp\vs_enterprise.out.txt'
+        Write-Output "Errors"
+        Get-Content 'c:\Temp\vs_enterprise.err.txt'
+        Write-Output "Verify uninstall"
+        $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+        Write-Output "Visual Studio installation path ${VS_HOME}"
       
     - name: Install Visual Studio 2013
       run: |  
-        Start-Process choco -ArgumentList "install","visualstudiocommunity2013" -Verb RunAs -Wait
+        Start-Process choco -ArgumentList "install","visualstudiocommunity2013" -PassThru -Verb RunAs -Wait
         $VS_HOME = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
         Write-Output "Visual Studio installation path ${VS_HOME}"
       #  ls 'C:\Program Files (x86)'
