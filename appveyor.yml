@@ -1,7 +1,7 @@
 configuration:
   - Release
 
-image: Visual Studio 2015
+image: Visual Studio 2019
 
 init:
   # uncomment for rdp debugging
