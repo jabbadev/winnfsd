@@ -76,8 +76,8 @@ matrix:
   fast_finish: true
 
 artifacts:
-  - path: src/Release/winnfsd.exe
-
+  - path: src\Release\WinNFSd.exe
+  - name: winnfsd
 # uncomment for rdp debugging
 # on_finish:
 #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
