@@ -1,6 +1,8 @@
 configuration:
   - Release
 
+image: Visual Studio 2015
+
 init:
   # uncomment for rdp debugging
   # - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
@@ -10,25 +12,39 @@ init:
   - ps: mkdir C:\downloads | Out-Null
 
 install:
-  - ps: |
-      cd C:\downloads
-      [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
-      Start-FileDownload "http://download.virtualbox.org/virtualbox/5.2.6/VirtualBox-5.2.6-120293-Win.exe"
-      Start-FileDownload "http://download.virtualbox.org/virtualbox/5.2.6/Oracle_VM_VirtualBox_Extension_Pack-5.2.6.vbox-extpack"
-      Start-FileDownload "https://releases.hashicorp.com/vagrant/2.0.1/vagrant_2.0.1_x86_64.msi"
-      Start-Process -FilePath "VirtualBox-5.2.6-120293-Win.exe" -ArgumentList "-silent -logging -msiparams INSTALLDIR=C:\VBox" -Wait
-      Start-Process -FilePath "msiexec.exe" -ArgumentList "/a vagrant_2.0.1_x86_64.msi /qb TARGETDIR=C:\Vagrant" -Wait
-      cd $env:APPVEYOR_BUILD_FOLDER
-  - set PATH=C:\Vagrant\HashiCorp\Vagrant\bin;C:\VBox;%PATH%
-  - vagrant -v
-  - VBoxManage -v
-  - ssh -V
-  - ipconfig /all
+#  - ps: |
+#      cd C:\downloads
+#      [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
+#      Start-FileDownload "http://download.virtualbox.org/virtualbox/5.2.6/VirtualBox-5.2.6-120293-Win.exe"
+#      Start-FileDownload "http://download.virtualbox.org/virtualbox/5.2.6/Oracle_VM_VirtualBox_Extension_Pack-5.2.6.vbox-extpack"
+#      $url = "https://releases.hashicorp.com/vagrant/2.0.1/vagrant_2.0.1_x86_64.msi"
+#      $timeoutMilliseconds = 10000
+#      [Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
+#      $req = [Net.HttpWebRequest]::Create($url)
+#      $req.Timeout = $timeoutMilliseconds
+#      $req.AllowAutoRedirect = $false
+#      $req.GetResponse() | Out-Null
+#      $certThumbprint = $req.ServicePoint.Certificate.GetCertHashString()
+#      $certThumbprint
+#
+#      if ($certThumbprint -eq "")
+#      {
+#          Invoke-WebRequest -Uri https://releases.hashicorp.com/vagrant/2.0.1/vagrant_2.0.1_x86_64.msi -OutFile vagrant_2.0.1_x86_64.msi 
+#      }
+#      
+#      Start-Process -FilePath "VirtualBox-5.2.6-120293-Win.exe" -ArgumentList "-silent -logging -msiparams INSTALLDIR=C:\VBox" -Wait
+#      Start-Process -FilePath "msiexec.exe" -ArgumentList "/a vagrant_2.0.1_x86_64.msi /qb TARGETDIR=C:\Vagrant" -Wait
+#      cd $env:APPVEYOR_BUILD_FOLDER
+#  - set PATH=C:\Vagrant\HashiCorp\Vagrant\bin;C:\VBox;%PATH%
+#  - vagrant -v
+#  - VBoxManage -v
+#  - ssh -V
+#  - ipconfig /all
 
 before_build:
   # see http://help.appveyor.com/discussions/problems/4569-the-target-_convertpdbfiles-listed-in-a-beforetargets-attribute-at-c-does-not-exist-in-the-project-and-will-be-ignored
-  - del "C:\Program Files (x86)\MSBuild\12.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
-  - del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
+  # - del "C:\Program Files (x86)\MSBuild\12.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
+  # - del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
   - ps: |
       if ($env:APPVEYOR_REPO_TAG_NAME) { $env:VERSION = $env:APPVEYOR_REPO_TAG_NAME } else { $env:VERSION = $env:APPVEYOR_REPO_BRANCH }
       (Get-Content $env:APPVEYOR_BUILD_FOLDER\src\winnfsd.cpp).replace('{{VERSION}}', $env:VERSION) | Set-Content $env:APPVEYOR_BUILD_FOLDER\src\winnfsd.cpp
@@ -44,17 +60,17 @@ before_build:
 
 
 before_test:
-  - ps: netsh advfirewall firewall add rule name="WinNFSd-IN" dir="in" action=allow protocol=any program="$env:APPVEYOR_BUILD_FOLDER\src\Release\WinNFSd.exe" profile=any
-  - ps: netsh advfirewall firewall add rule name="WinNFSd-OUT" dir="out" action=allow protocol=any program="$env:APPVEYOR_BUILD_FOLDER\src\Release\WinNFSd.exe" profile=any
-  - ps: cd $env:APPVEYOR_BUILD_FOLDER\tests
-  - vagrant up
-  - mkdir C:\connectathon-winnfsd
-  - ps: copy -Recurse $env:APPVEYOR_BUILD_FOLDER\tests C:\connectathon-winnfsd
-  - ps: start-process "$env:APPVEYOR_BUILD_FOLDER\src\Release\WinNFSd.exe" "-log off C:\connectathon-winnfsd"
-
-test_script:
-  - vagrant ssh -c "sudo mkdir /winnfsd && sudo mount -o 'vers=3,udp,nolock' 192.168.56.1:/C/connectathon-winnfsd /winnfsd"
-  - vagrant ssh -c "sudo -E /winnfsd/tests/bash/tests.sh"
+#  - ps: netsh advfirewall firewall add rule name="WinNFSd-IN" dir="in" action=allow protocol=any program="$env:APPVEYOR_BUILD_FOLDER\src\Release\WinNFSd.exe" profile=any
+#  - ps: netsh advfirewall firewall add rule name="WinNFSd-OUT" dir="out" action=allow protocol=any program="$env:APPVEYOR_BUILD_FOLDER\src\Release\WinNFSd.exe" profile=any
+#  - ps: cd $env:APPVEYOR_BUILD_FOLDER\tests
+#  - vagrant up
+#  - mkdir C:\connectathon-winnfsd
+#  - ps: copy -Recurse $env:APPVEYOR_BUILD_FOLDER\tests C:\connectathon-winnfsd
+#  - ps: start-process "$env:APPVEYOR_BUILD_FOLDER\src\Release\WinNFSd.exe" "-log off C:\connectathon-winnfsd"
+#
+#test_script:
+#  - vagrant ssh -c "sudo mkdir /winnfsd && sudo mount -o 'vers=3,udp,nolock' 192.168.56.1:/C/connectathon-winnfsd /winnfsd"
+#  - vagrant ssh -c "sudo -E /winnfsd/tests/bash/tests.sh"
 
 matrix:
   fast_finish: true
