@@ -29,7 +29,7 @@ install:
 #
 #      if ($certThumbprint -eq "")
 #      {
-          Invoke-WebRequest -Uri https://releases.hashicorp.com/vagrant/2.0.1/vagrant_2.0.1_x86_64.msi -OutFile vagrant_2.0.1_x86_64.msi 
+#          Invoke-WebRequest -Uri https://releases.hashicorp.com/vagrant/2.0.1/vagrant_2.0.1_x86_64.msi -OutFile vagrant_2.0.1_x86_64.msi 
 #      }
 #      
 #      Start-Process -FilePath "VirtualBox-5.2.6-120293-Win.exe" -ArgumentList "-silent -logging -msiparams INSTALLDIR=C:\VBox" -Wait
