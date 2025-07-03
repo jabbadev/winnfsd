@@ -58,7 +58,6 @@ before_build:
       (Get-Content $env:APPVEYOR_BUILD_FOLDER\src\WinNFSd.rc).replace('1.0.0.0', $env:LAST_TAG) | Set-Content $env:APPVEYOR_BUILD_FOLDER\src\WinNFSd.rc
       (Get-Content $env:APPVEYOR_BUILD_FOLDER\src\WinNFSd.rc).replace('YYYY', $(Get-Date -UFormat %Y)) | Set-Content $env:APPVEYOR_BUILD_FOLDER\src\WinNFSd.rc
 
-
 before_test:
 #  - ps: netsh advfirewall firewall add rule name="WinNFSd-IN" dir="in" action=allow protocol=any program="$env:APPVEYOR_BUILD_FOLDER\src\Release\WinNFSd.exe" profile=any
 #  - ps: netsh advfirewall firewall add rule name="WinNFSd-OUT" dir="out" action=allow protocol=any program="$env:APPVEYOR_BUILD_FOLDER\src\Release\WinNFSd.exe" profile=any
